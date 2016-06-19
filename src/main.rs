@@ -93,7 +93,7 @@ Options:
   --version                Show version.
   --input <INPUT>          Path to the file with full text.
   --output <OUTPUT>        File with result of generation.
-  --size <SIZE>            Size of the generated text in sentences.
+  --size <SIZE>            Size of the generated text in words.
 ";
 
 #[derive(RustcDecodable)]

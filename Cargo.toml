@@ -5,3 +5,5 @@ authors = ["Bulat Lutfullin <lb6557@gmail.com>"]
 
 [dependencies]
 rand = "0.3.14"
+docopt = "0.6.80"
+rustc-serialize = "0.3.19"

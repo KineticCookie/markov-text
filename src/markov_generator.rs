@@ -29,7 +29,6 @@ impl<T: Eq + Hash + Clone> MarkovGenerator<T> {
                 let mut prob = submap.entry(item.clone()).or_insert(0);
                 *prob += 1;
                 self.count += 1;
-
             }
             prev_item = Some(&item);
         }
@@ -42,20 +41,18 @@ impl<T: Eq + Hash + Clone> MarkovGenerator<T> {
         (*self.rng.choose(keys).unwrap()).clone()
     }
 
-    pub fn get(&mut self, key: &T) -> Result<T, ()> {
-        match self.map.get(key) {
-            Some(submap) => {
-                loop {
-                    let random = self.rng.gen_range(1u32, self.count);
-                    for (k, v) in submap.iter() {
-                        if *v >= random {
-                            let r: T = k.clone();
-                            return Ok(r);
-                        }
+    pub fn get(&mut self, key: &T) -> Result<T, ()> { // TODO: Result types and errors
+        if let Some(submap) = self.map.get(key) { // if key has connections to others
+            loop {
+                let random = self.rng.gen_range(1u32, self.count); // self.count or max_value(submap)?
+                for (k, v) in submap.iter() {
+                    if *v >= random { // if rng is enough for `k` as the next value, so be it
+                        return Ok(k.clone());
                     }
                 }
             }
-            None => Err(()),
+        } else {
+            Err(())
         }
     }
 }
